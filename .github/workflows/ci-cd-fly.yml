@@ -176,9 +176,10 @@ jobs:
           flyctl secrets set "${secret_args[@]}" --app "${FLY_APP_NAME}" --stage
 
       - name: Deploy
+        working-directory: backend
         run: |
           flyctl deploy \
-            --config backend/fly.toml \
-            --dockerfile backend/Dockerfile \
+            --config fly.toml \
+            --dockerfile Dockerfile \
             --app "${FLY_APP_NAME}" \
             --remote-only
