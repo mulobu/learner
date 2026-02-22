@@ -1,36 +1,34 @@
 type GsapLike = {
   fromTo: (
-    target: gsap.TweenTarget,
-    fromVars: gsap.TweenVars,
-    toVars: gsap.TweenVars,
-  ) => gsap.core.Tween
-  to: (target: gsap.TweenTarget, vars: gsap.TweenVars) => gsap.core.Tween
-  timeline: (vars?: gsap.TimelineVars) => gsap.core.Timeline
+    target: TweenTarget,
+    fromVars: TweenVars,
+    toVars: TweenVars,
+  ) => GsapTween
+  to: (target: TweenTarget, vars: TweenVars) => GsapTween
+  timeline: (vars?: TimelineVars) => GsapTimeline
 }
 
-declare namespace gsap {
-  type TweenTarget = Element | Element[] | NodeListOf<Element> | string
-  type TweenVars = Record<string, unknown>
-  type TimelineVars = Record<string, unknown>
-  namespace core {
-    interface Tween {
-      kill: () => void
-    }
-    interface Timeline {
-      fromTo: (
-        target: TweenTarget,
-        fromVars: TweenVars,
-        toVars: TweenVars,
-        position?: string | number,
-      ) => Timeline
-      to: (
-        target: TweenTarget,
-        vars: TweenVars,
-        position?: string | number,
-      ) => Timeline
-      kill: () => void
-    }
-  }
+type TweenTarget = Element | Element[] | NodeListOf<Element> | string
+type TweenVars = Record<string, unknown>
+type TimelineVars = Record<string, unknown>
+
+interface GsapTween {
+  kill: () => void
+}
+
+interface GsapTimeline {
+  fromTo: (
+    target: TweenTarget,
+    fromVars: TweenVars,
+    toVars: TweenVars,
+    position?: string | number,
+  ) => GsapTimeline
+  to: (
+    target: TweenTarget,
+    vars: TweenVars,
+    position?: string | number,
+  ) => GsapTimeline
+  kill: () => void
 }
 
 const GSAP_ESM_CDN = 'https://cdn.jsdelivr.net/npm/gsap@3.12.7/+esm'
