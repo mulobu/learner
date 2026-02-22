@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.auth0 import decode_auth0_access_token, fetch_auth0_userinfo
 from app.core.config import settings
+from app.core.rate_limit import ProcessSubmissionRateLimiter
 from app.core.database import get_db_session
 from app.core.exceptions import ForbiddenError, UnauthorizedError
 from app.repositories.book_repository import BookRepository
@@ -34,6 +35,7 @@ _pdf_service = PDFService()
 _llm_service: BaseLLMService | None = None
 _video_search_service: VideoSearchService | None = None
 _r2_service: R2Service | None = None
+_process_submission_limiter: ProcessSubmissionRateLimiter | None = None
 
 
 def get_r2_service() -> R2Service | None:
@@ -83,6 +85,17 @@ def get_video_search_service() -> VideoSearchService:
             rate_limit=settings.YOUTUBE_RATE_LIMIT,
         )
     return _video_search_service
+
+
+def get_process_submission_limiter() -> ProcessSubmissionRateLimiter:
+    global _process_submission_limiter
+    if _process_submission_limiter is None:
+        _process_submission_limiter = ProcessSubmissionRateLimiter(
+            per_user_limit=settings.UNIT_PROCESS_PER_USER_RATE_LIMIT,
+            global_limit=settings.UNIT_PROCESS_GLOBAL_RATE_LIMIT,
+            window_seconds=settings.UNIT_PROCESS_RATE_LIMIT_WINDOW_SECONDS,
+        )
+    return _process_submission_limiter
 
 
 async def get_user_repository(

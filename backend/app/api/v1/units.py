@@ -9,12 +9,14 @@ from app.core.deps import (
     get_current_user,
     get_llm_service,
     owner_scope_for_user,
+    get_process_submission_limiter,
     get_pdf_service,
     get_processing_tracker,
     get_r2_service,
     get_unit_service,
     get_video_search_service,
 )
+from app.core.rate_limit import ProcessSubmissionRateLimiter
 from app.models.user import User
 from app.repositories.book_repository import BookRepository
 from app.repositories.quiz_repository import QuizRepository
@@ -90,6 +92,9 @@ async def process_unit(
     unit_id: UUID,
     background_tasks: BackgroundTasks,
     unit_service: UnitService = Depends(get_unit_service),
+    process_submission_limiter: ProcessSubmissionRateLimiter = Depends(
+        get_process_submission_limiter
+    ),
     current_user: User = Depends(get_current_user),
 ):
     # Validate the unit exists and isn't already processed
@@ -97,6 +102,7 @@ async def process_unit(
         unit_id,
         owner_id=owner_scope_for_user(current_user),
     )
+    await process_submission_limiter.check(str(current_user.id))
 
     background_tasks.add_task(process_unit_background, unit_id)
 

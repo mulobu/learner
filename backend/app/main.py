@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.core.config import settings
-from app.core.exceptions import LearnerException
+from app.core.exceptions import LearnerException, RateLimitExceededError
 from app.api.v1 import router as api_v1_router
 
 
@@ -56,9 +56,13 @@ def create_app() -> FastAPI:
     async def learner_exception_handler(
         request: Request, exc: LearnerException
     ) -> JSONResponse:
+        headers: dict[str, str] | None = None
+        if isinstance(exc, RateLimitExceededError) and exc.retry_after_seconds:
+            headers = {"Retry-After": str(exc.retry_after_seconds)}
         return JSONResponse(
             status_code=exc.status_code,
             content={"detail": exc.message},
+            headers=headers,
         )
 
     app.include_router(api_v1_router, prefix=settings.API_V1_PREFIX)

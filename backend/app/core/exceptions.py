@@ -94,3 +94,13 @@ class UnauthorizedError(LearnerException):
 class ForbiddenError(LearnerException):
     def __init__(self, detail: str = "You do not have access to this resource"):
         super().__init__(detail, status_code=403)
+
+
+class RateLimitExceededError(LearnerException):
+    def __init__(
+        self,
+        detail: str = "Rate limit exceeded",
+        retry_after_seconds: int | None = None,
+    ):
+        super().__init__(detail, status_code=429)
+        self.retry_after_seconds = retry_after_seconds

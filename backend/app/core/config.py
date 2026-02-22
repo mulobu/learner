@@ -43,6 +43,9 @@ class Settings(BaseSettings):
     # Rate limiting (requests per minute)
     LLM_RATE_LIMIT: int = 10
     YOUTUBE_RATE_LIMIT: int = 5
+    UNIT_PROCESS_PER_USER_RATE_LIMIT: int = 2
+    UNIT_PROCESS_GLOBAL_RATE_LIMIT: int = 5
+    UNIT_PROCESS_RATE_LIMIT_WINDOW_SECONDS: int = 60
 
     # CORS
     CORS_ORIGINS: list[str] = ["http://localhost:5173"]
