@@ -40,6 +40,14 @@ export default function AuthPage() {
     (location.state as { from?: { pathname?: string } } | undefined)?.from
       ?.pathname || "/";
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner className="h-8 w-8" />
+      </div>
+    );
+  }
+
   if (isAuthenticated) {
     const target = sanitizeRedirectPath(
       from !== "/" ? from : consumePostLoginPath(),
