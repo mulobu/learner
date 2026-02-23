@@ -1,4 +1,5 @@
 import type { QuizQuestion } from '../types/quiz'
+import RichText from './ui/RichText'
 
 interface QuestionCardProps {
   question: QuizQuestion
@@ -16,26 +17,26 @@ export default function QuestionCard({
   onSelectOption,
 }: QuestionCardProps) {
   return (
-    <div className="rounded-2xl border border-white/90 bg-white/95 p-6 shadow-[0_12px_36px_-28px_rgba(15,23,42,0.8)]">
+    <div className="surface-card p-6 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
-        <span className="meta-font text-xs font-medium uppercase tracking-wide text-teal-700">
+        <span className="meta-font text-xs font-medium uppercase tracking-wide text-[var(--primary)]">
           Question {questionIndex + 1} of {totalQuestions}
         </span>
         <span
           className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
             question.difficulty === 'easy'
-              ? 'bg-green-100 text-green-800'
+              ? 'bg-[var(--success-soft)] text-[var(--success)]'
               : question.difficulty === 'hard'
-                ? 'bg-red-100 text-red-800'
-                : 'bg-yellow-100 text-yellow-800'
+                ? 'bg-[var(--error-soft)] text-[var(--error)]'
+                : 'bg-[var(--warning-soft)] text-[var(--warning)]'
           }`}
         >
           {question.difficulty}
         </span>
       </div>
 
-      <h3 className="mb-6 text-lg font-semibold text-gray-900">
-        {question.question_text}
+      <h3 className="mb-6 text-xl font-semibold text-[var(--text-primary)]">
+        <RichText content={question.question_text} />
       </h3>
 
       <div className="space-y-3">
@@ -45,20 +46,22 @@ export default function QuestionCard({
             onClick={() => onSelectOption(option.key)}
             className={`flex w-full items-center gap-3 rounded-xl border-2 p-4 text-left transition-colors ${
               selectedOption === option.key
-                ? 'border-teal-500 bg-teal-50'
-                : 'border-gray-200 hover:border-teal-300 hover:bg-white'
+                ? 'border-[var(--primary)] bg-[var(--primary-soft)]'
+                : 'border-[var(--border)] hover:border-[var(--primary-muted)] hover:bg-[var(--bg-surface)]'
             }`}
           >
             <span
               className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-medium ${
                 selectedOption === option.key
-                  ? 'bg-teal-700 text-white'
-                  : 'bg-gray-100 text-gray-700'
+                  ? 'bg-[var(--primary)] text-white'
+                  : 'bg-[var(--bg-muted)] text-[var(--text-secondary)]'
               }`}
             >
               {option.key}
             </span>
-            <span className="text-sm text-gray-900">{option.text}</span>
+            <span className="text-sm text-[var(--text-primary)]">
+              <RichText content={option.text} inline />
+            </span>
           </button>
         ))}
       </div>

@@ -15,7 +15,7 @@ from app.core.exceptions import (
 )
 from app.models.book import Book
 from app.models.unit import Unit
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.repositories.book_repository import BookRepository
 from app.repositories.unit_repository import UnitRepository
 from app.utils.pdf_service import PDFService, TOCEntry
@@ -47,8 +47,8 @@ class BookService:
     async def upload_book(self, file: UploadFile, user: User) -> Book:
         owner_id = user.id
 
-        # Check book limit — each account gets exactly 1 book, ever
-        if user.has_used_book_slot:
+        # Standard users get exactly 1 book, ever. Admin/super-user is unlimited.
+        if user.role != UserRole.ADMIN and user.has_used_book_slot:
             raise BookLimitReachedError()
 
         # Validate file type
@@ -108,8 +108,9 @@ class BookService:
         await self._create_units_from_toc(book.id, toc_entries)
         book.toc_extracted = True
 
-        # Mark the user's book slot as consumed (permanent, survives delete)
-        user.has_used_book_slot = True
+        # Track one-time book slot only for non-admin users.
+        if user.role != UserRole.ADMIN:
+            user.has_used_book_slot = True
 
         return book
 

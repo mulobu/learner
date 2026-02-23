@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useBookDetail, useBookProgress, useDeleteBook } from '../hooks/useBooks'
+import usePageTitle from '../hooks/usePageTitle'
 import UnitTreeItem from '../components/UnitTreeItem'
 import ProgressBar from '../components/ui/ProgressBar'
 import Spinner from '../components/ui/Spinner'
@@ -11,6 +12,7 @@ export default function BookDetailPage() {
   const { data: book, isLoading, isError } = useBookDetail(bookId!)
   const { data: progress } = useBookProgress(bookId!)
   const deleteBook = useDeleteBook()
+  usePageTitle(book?.title ? `${book.title} - Book Odyssey` : 'Book Odyssey')
 
   if (isLoading) {
     return (
@@ -22,7 +24,7 @@ export default function BookDetailPage() {
 
   if (isError || !book) {
     return (
-      <p className="py-12 text-center text-red-600">
+      <p className="py-12 text-center text-[var(--error)]">
         Failed to load book details.
       </p>
     )
@@ -38,25 +40,25 @@ export default function BookDetailPage() {
     <div>
       <button
         onClick={() => navigate('/')}
-        className="mb-4 text-sm text-gray-600 hover:text-gray-800"
+        className="mb-4 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
       >
         &larr; Back to Books
       </button>
 
-      <div className="rounded-2xl border border-white/80 bg-white/90 p-6 shadow-[0_14px_40px_-24px_rgba(15,23,42,0.55)]">
+      <div className="surface-card p-6 shadow-sm">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{book.title}</h1>
+            <h1 className="text-3xl font-bold text-[var(--text-primary)]">{book.title}</h1>
             {book.author && (
-              <p className="mt-1 text-gray-600">{book.author}</p>
+              <p className="mt-1 text-[var(--text-secondary)]">{book.author}</p>
             )}
-            <p className="meta-font mt-1 text-xs uppercase tracking-wide text-gray-500">
+            <p className="meta-font mt-1 text-xs uppercase tracking-wide text-[var(--text-tertiary)]">
               {book.total_pages} pages
             </p>
           </div>
           <button
             onClick={handleDelete}
-            className="rounded-lg px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
+            className="rounded-lg px-3 py-1.5 text-sm text-[var(--error)] hover:bg-[var(--error-soft)]"
           >
             Delete
           </button>
@@ -65,13 +67,13 @@ export default function BookDetailPage() {
         {progress && (
           <div className="mt-6">
             <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="text-gray-700">Course Progress</span>
-              <span className="font-semibold text-teal-700">
+              <span className="text-[var(--text-secondary)]">Course Progress</span>
+              <span className="font-semibold text-[var(--primary)]">
                 {formatPercentage(progress.progress.completion_percentage)}
               </span>
             </div>
             <ProgressBar value={progress.progress.completion_percentage} />
-            <div className="meta-font mt-2 flex gap-4 text-xs text-gray-500">
+            <div className="meta-font mt-2 flex gap-4 text-xs text-[var(--text-tertiary)]">
               <span>{progress.progress.completed_units} completed</span>
               <span>{progress.progress.in_progress_units} in progress</span>
               <span>{progress.progress.not_started_units} not started</span>
@@ -81,10 +83,10 @@ export default function BookDetailPage() {
       </div>
 
       <div className="mt-8">
-        <h2 className="mb-4 text-xl font-semibold text-gray-900">
+        <h2 className="mb-4 text-xl font-semibold text-[var(--text-primary)]">
           Course Roadmap
         </h2>
-        <div className="rounded-2xl border border-white/85 bg-white/90">
+        <div className="surface-card">
           {book.units.map((unit) => (
             <UnitTreeItem key={unit.id} unit={unit} />
           ))}

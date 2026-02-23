@@ -2,13 +2,35 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f6f1e8;
-  --paper-soft: #fbf8f3;
-  --ink: #1c1b1a;
-  --ink-soft: #4a4643;
-  --teal: #0f766e;
-  --teal-soft: #ccfbf1;
-  --amber-soft: #fef3c7;
+  --bg-base: #f8f9fb;
+  --bg-surface: #ffffff;
+  --bg-muted: #f1f3f7;
+  --bg-elevated: #e8ebf0;
+
+  --text-primary: #1a1f36;
+  --text-secondary: #5a6178;
+  --text-tertiary: #8b90a0;
+
+  --primary: #2d7a6f;
+  --primary-hover: #245f57;
+  --primary-soft: #e6f5f2;
+  --primary-muted: #d0ece7;
+
+  --accent: #e87461;
+  --accent-soft: #fef0ed;
+
+  --success: #2d8a5e;
+  --success-soft: #e8f7ef;
+  --warning: #c5922e;
+  --warning-soft: #fdf5e6;
+  --error: #c53d3d;
+  --error-soft: #fdeaea;
+
+  --border: #e0e3ea;
+  --border-soft: #edf0f5;
+
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.50);
 }
 
 * {
@@ -19,10 +41,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 15% 18%, #fde68a66 0, #fde68a00 38%),
-    radial-gradient(circle at 84% 8%, #99f6e466 0, #99f6e400 34%),
-    linear-gradient(160deg, var(--paper) 0%, var(--paper-soft) 62%);
-  color: var(--ink);
+    radial-gradient(circle at 20% 10%, var(--primary-soft) 0, transparent 40%),
+    var(--bg-base);
+  color: var(--text-primary);
   font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
@@ -39,11 +60,23 @@ h3,
 }
 
 .text-ink-soft {
-  color: var(--ink-soft);
+  color: var(--text-secondary);
 }
 
 .app-shell {
   position: relative;
+}
+
+.surface-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.surface-muted {
+  background: var(--bg-muted);
+  border: 1px solid var(--border-soft);
+  border-radius: 1rem;
 }
 
 .card-lift {
@@ -52,12 +85,12 @@ h3,
 }
 
 .card-lift:hover {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-3px) scale(1.005);
 }
 
 .glass-panel {
-  border: 1px solid #ffffff77;
-  background: #ffffffe8;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
   backdrop-filter: blur(14px);
 }
 
@@ -66,10 +99,8 @@ h3,
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(#ffffff44 0.55px, transparent 0.55px),
-    radial-gradient(#0f766e1a 0.45px, transparent 0.45px);
-  background-position: 0 0, 18px 18px;
-  background-size: 20px 20px;
+    radial-gradient(var(--bg-elevated) 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.3;
 }

@@ -48,6 +48,12 @@ Topic: {unit_title}
 
 Based on the following content, generate 5-8 multiple choice questions that test understanding of the key concepts. Vary the difficulty levels (include easy, medium, and hard questions). Each question should have exactly 4 options (A, B, C, D) with one correct answer and a clear explanation.
 
+Formatting rules for questions, options, and explanations:
+- Use Markdown for emphasis (**bold**, *italic*) and `backticks` for code or variable names.
+- For mathematical formulas, use LaTeX wrapped in dollar signs: $x^2 + y^2 = z^2$ for inline math, $$\\int_0^1 f(x)\\,dx$$ for block math.
+- For chemical formulas, use LaTeX: $\\text{{H}}_2\\text{{O}}$, $\\text{{CO}}_2$.
+- Always use proper notation — never write formulas as plain ASCII (e.g., use $\\frac{{a}}{{b}}$ not a/b for fractions).
+
 Content:
 {content}
 """

@@ -11,7 +11,7 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
       href={resource.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="card-lift flex gap-4 rounded-2xl border border-white/85 bg-white/90 p-4 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.9)]"
+      className="card-lift flex gap-4 surface-card p-4 shadow-sm"
     >
       {resource.thumbnail_url && (
         <img
@@ -21,11 +21,11 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
         />
       )}
       <div className="min-w-0 flex-1">
-        <h4 className="line-clamp-2 text-sm font-semibold text-gray-900">
+        <h4 className="line-clamp-2 text-sm font-semibold text-[var(--text-primary)]">
           {resource.title}
         </h4>
-        <p className="mt-1 text-xs text-gray-600">{resource.channel_name}</p>
-        <div className="meta-font mt-2 flex items-center gap-3 text-[11px] text-gray-500">
+        <p className="mt-1 text-xs text-[var(--text-secondary)]">{resource.channel_name}</p>
+        <div className="meta-font mt-2 flex items-center gap-3 text-[11px] text-[var(--text-tertiary)]">
           {resource.view_count != null && (
             <span>{formatViewCount(resource.view_count)}</span>
           )}

@@ -9,6 +9,7 @@ import BookDetailPage from './pages/BookDetailPage'
 import UnitPage from './pages/UnitPage'
 import QuizPage from './pages/QuizPage'
 import QuizResultsPage from './pages/QuizResultsPage'
+import PitchDeckPage from './pages/PitchDeckPage'
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/units/:unitId/quiz/results/:attemptId" element={<QuizResultsPage />} />
           <Route element={<RequireAdmin />}>
             <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/pitch-deck" element={<PitchDeckPage />} />
           </Route>
         </Route>
       </Route>

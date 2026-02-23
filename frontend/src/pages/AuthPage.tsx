@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import usePageTitle from "../hooks/usePageTitle";
 import Spinner from "../components/ui/Spinner";
 import { consumePostLoginPath } from "../services/auth0";
 
@@ -32,6 +33,7 @@ function sanitizeRedirectPath(path: string | null | undefined): string {
 }
 
 export default function AuthPage() {
+  usePageTitle("Welcome Back, Brainiac");
   const { isAuthenticated, isLoading, login } = useAuth();
   const location = useLocation();
   const [error, setError] = useState<string | null>(null);
@@ -57,10 +59,10 @@ export default function AuthPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-3xl border border-white/85 bg-white/90 p-8 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.9)]">
-        <p className="meta-font text-xs uppercase tracking-[0.22em] text-teal-700">Welcome</p>
-        <h1 className="mt-2 text-3xl font-bold text-gray-900">Learner Studio</h1>
-        <p className="mt-1 text-sm text-gray-600">Sign in to continue.</p>
+      <div className="w-full max-w-md surface-card p-8 shadow-sm rounded-3xl">
+        <p className="meta-font text-xs uppercase tracking-[0.22em] text-[var(--primary)]">Welcome</p>
+        <h1 className="mt-2 text-3xl font-bold text-[var(--text-primary)]">Learner Studio</h1>
+        <p className="mt-1 text-sm text-[var(--text-secondary)]">Sign in to continue.</p>
 
         <button
           type="button"
@@ -71,7 +73,7 @@ export default function AuthPage() {
               setError("Unable to sign in. Please try again.");
             });
           }}
-          className="mt-6 w-full rounded-lg border border-teal-300 bg-teal-50 px-4 py-2 text-sm font-medium text-teal-900 hover:bg-teal-100 disabled:opacity-50"
+          className="mt-6 w-full rounded-lg border border-[var(--border)] bg-[var(--primary-soft)] px-4 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--primary-muted)] disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">
@@ -84,7 +86,7 @@ export default function AuthPage() {
         </button>
 
         {(error || callbackError) && (
-          <p className="mt-3 text-sm text-red-600">{error || callbackError}</p>
+          <p className="mt-3 text-sm text-[var(--error)]">{error || callbackError}</p>
         )}
       </div>
     </div>

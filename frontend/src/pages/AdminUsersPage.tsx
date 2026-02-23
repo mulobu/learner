@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useAdminUsersWithCourses } from '../hooks/useBooks'
+import usePageTitle from '../hooks/usePageTitle'
 import Spinner from '../components/ui/Spinner'
 
 export default function AdminUsersPage() {
+  usePageTitle('Crew Roster')
   const { data, isLoading, isError } = useAdminUsersWithCourses(true)
 
   if (isLoading) {
@@ -15,7 +17,7 @@ export default function AdminUsersPage() {
 
   if (isError || !data) {
     return (
-      <p className="py-12 text-center text-red-600">
+      <p className="py-12 text-center text-[var(--error)]">
         Failed to load users and courses.
       </p>
     )
@@ -23,8 +25,8 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Users and Courses</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-[var(--text-primary)]">Users and Courses</h1>
+      <p className="mt-1 text-sm text-[var(--text-secondary)]">
         Admin view of all users and the books/courses they own.
       </p>
 
@@ -32,37 +34,37 @@ export default function AdminUsersPage() {
         {data.map((user) => (
           <div
             key={user.id}
-            className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm"
+            className="surface-card p-5 shadow-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-base font-semibold text-gray-900">
+                <p className="text-base font-semibold text-[var(--text-primary)]">
                   {user.full_name || user.email}
                 </p>
-                <p className="text-sm text-gray-500">{user.email}</p>
+                <p className="text-sm text-[var(--text-secondary)]">{user.email}</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+              <div className="rounded-lg bg-[var(--bg-muted)] px-3 py-1 text-xs font-medium text-[var(--text-secondary)]">
                 {user.role} | {user.total_courses} course(s)
               </div>
             </div>
 
             <div className="mt-4">
               {user.books.length === 0 ? (
-                <p className="text-sm text-gray-500">No courses yet.</p>
+                <p className="text-sm text-[var(--text-tertiary)]">No courses yet.</p>
               ) : (
                 <ul className="space-y-2">
                   {user.books.map((book) => (
                     <li
                       key={book.id}
-                      className="flex items-center justify-between rounded-md border border-gray-100 px-3 py-2"
+                      className="flex items-center justify-between rounded-lg border border-[var(--border-soft)] px-3 py-2"
                     >
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{book.title}</p>
-                        <p className="text-xs text-gray-500">{book.total_pages} pages</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)]">{book.title}</p>
+                        <p className="text-xs text-[var(--text-tertiary)]">{book.total_pages} pages</p>
                       </div>
                       <Link
                         to={`/books/${book.id}`}
-                        className="text-xs font-medium text-indigo-600 hover:text-indigo-700"
+                        className="text-xs font-medium text-[var(--primary)] hover:text-[var(--primary-hover)]"
                       >
                         Open
                       </Link>

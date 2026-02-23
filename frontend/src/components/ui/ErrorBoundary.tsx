@@ -30,15 +30,15 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         this.props.fallback || (
           <div className="flex flex-col items-center justify-center p-12 text-center">
-            <h2 className="text-lg font-semibold text-red-600">
+            <h2 className="text-lg font-semibold text-[var(--error)]">
               Something went wrong
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-[var(--text-secondary)]">
               {this.state.error?.message}
             </p>
             <button
               onClick={() => this.setState({ hasError: false, error: null })}
-              className="mt-4 rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
+              className="mt-4 rounded-lg bg-[var(--primary)] px-4 py-2 text-sm text-white hover:bg-[var(--primary-hover)]"
             >
               Try again
             </button>

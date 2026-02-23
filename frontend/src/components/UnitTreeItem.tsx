@@ -22,14 +22,14 @@ export default function UnitTreeItem({ unit, depth = 0 }: UnitTreeItemProps) {
   return (
     <div>
       <div
-        className={`flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-amber-50/70 ${
+        className={`flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-[var(--bg-muted)] ${
           depth > 0 ? 'ml-6' : ''
         }`}
       >
         {hasChildren ? (
           <button
             onClick={() => setExpanded(!expanded)}
-            className="flex h-5 w-5 shrink-0 items-center justify-center text-gray-400 hover:text-gray-600"
+            className="flex h-5 w-5 shrink-0 items-center justify-center text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]"
           >
             <svg
               className={`h-4 w-4 transition-transform ${expanded ? 'rotate-90' : ''}`}
@@ -51,15 +51,15 @@ export default function UnitTreeItem({ unit, depth = 0 }: UnitTreeItemProps) {
           <span
             className={`h-2.5 w-2.5 shrink-0 rounded-full ${
               unit.status === 'completed'
-                ? 'bg-green-500'
+                ? 'bg-[var(--success)]'
                 : unit.status === 'in_progress'
-                  ? 'bg-amber-500'
-                  : 'bg-gray-300'
+                  ? 'bg-[var(--warning)]'
+                  : 'bg-[var(--bg-elevated)]'
             }`}
           />
-          <span className="truncate text-sm text-gray-900">{unit.title}</span>
+          <span className="truncate text-sm text-[var(--text-primary)]">{unit.title}</span>
           <Badge variant={config.variant}>{config.label}</Badge>
-          <span className="meta-font ml-auto shrink-0 text-[11px] text-gray-500">
+          <span className="meta-font ml-auto shrink-0 text-[11px] text-[var(--text-tertiary)]">
             p.{unit.start_page}-{unit.end_page}
           </span>
         </Link>
