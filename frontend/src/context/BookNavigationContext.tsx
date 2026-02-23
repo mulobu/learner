@@ -1,24 +1,6 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import type { ReactNode } from 'react'
-
-interface BookNavState {
-  currentBookId: string | null
-  currentBookTitle: string | null
-  currentUnitTitle: string | null
-}
-
-interface BookNavContextValue extends BookNavState {
-  setBookNav: (state: Partial<BookNavState>) => void
-  clearBookNav: () => void
-}
-
-const BookNavigationContext = createContext<BookNavContextValue>({
-  currentBookId: null,
-  currentBookTitle: null,
-  currentUnitTitle: null,
-  setBookNav: () => {},
-  clearBookNav: () => {},
-})
+import { BookNavigationContext, type BookNavState } from './bookNavigation'
 
 export function BookNavigationProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<BookNavState>({
@@ -40,8 +22,4 @@ export function BookNavigationProvider({ children }: { children: ReactNode }) {
       {children}
     </BookNavigationContext.Provider>
   )
-}
-
-export function useBookNav() {
-  return useContext(BookNavigationContext)
 }
