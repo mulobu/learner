@@ -8,12 +8,14 @@ from fastapi import UploadFile
 
 from app.core.config import settings
 from app.core.exceptions import (
+    BookLimitReachedError,
     BookNotFoundError,
     DuplicateBookError,
     InvalidFileError,
 )
 from app.models.book import Book
 from app.models.unit import Unit
+from app.models.user import User
 from app.repositories.book_repository import BookRepository
 from app.repositories.unit_repository import UnitRepository
 from app.utils.pdf_service import PDFService, TOCEntry
@@ -42,7 +44,13 @@ class BookService:
         self.r2_service = r2_service
         self.storage_mode = storage_mode
 
-    async def upload_book(self, file: UploadFile, owner_id: uuid.UUID) -> Book:
+    async def upload_book(self, file: UploadFile, user: User) -> Book:
+        owner_id = user.id
+
+        # Check book limit — each account gets exactly 1 book, ever
+        if user.has_used_book_slot:
+            raise BookLimitReachedError()
+
         # Validate file type
         if file.content_type not in ALLOWED_CONTENT_TYPES:
             raise InvalidFileError(
@@ -99,6 +107,9 @@ class BookService:
         toc_entries = self.pdf_service.extract_toc_from_bytes(content, filename)
         await self._create_units_from_toc(book.id, toc_entries)
         book.toc_extracted = True
+
+        # Mark the user's book slot as consumed (permanent, survives delete)
+        user.has_used_book_slot = True
 
         return book
 

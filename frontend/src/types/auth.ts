@@ -7,6 +7,7 @@ export interface User {
   email: string
   full_name: string | null
   role: UserRole
+  book_limit_reached: boolean
   created_at: string
 }
 

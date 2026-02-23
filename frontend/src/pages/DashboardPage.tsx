@@ -32,7 +32,7 @@ const HERO_ICONS: HeroIcon[] = [
 ];
 
 export default function DashboardPage() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
   const { data: books, isLoading, isError } = useBooks();
   const heroRef = useRef<HTMLDivElement | null>(null);
   const uploadRef = useRef<HTMLDivElement | null>(null);
@@ -171,9 +171,11 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div ref={uploadRef} className="mt-6">
-        <BookUploadCard />
-      </div>
+      {!user?.book_limit_reached && !(books && books.length > 0) && (
+        <div ref={uploadRef} className="mt-6">
+          <BookUploadCard />
+        </div>
+      )}
 
       <div ref={booksSectionRef} className="mt-10">
         <div className="mb-4 flex items-end justify-between">

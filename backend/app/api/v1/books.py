@@ -17,7 +17,7 @@ async def upload_book(
     book_service: BookService = Depends(get_book_service),
     current_user: User = Depends(get_current_user),
 ):
-    book = await book_service.upload_book(file, owner_id=current_user.id)
+    book = await book_service.upload_book(file, user=current_user)
     return book
 
 

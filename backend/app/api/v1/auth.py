@@ -11,4 +11,11 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def me(
     current_user: User = Depends(get_current_user),
 ):
-    return UserResponse.model_validate(current_user)
+    return UserResponse(
+        id=current_user.id,
+        email=current_user.email,
+        full_name=current_user.full_name,
+        role=current_user.role,
+        book_limit_reached=current_user.has_used_book_slot,
+        created_at=current_user.created_at,
+    )

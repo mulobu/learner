@@ -32,6 +32,9 @@ class User(BaseModel):
         default=UserRole.USER,
     )
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    has_used_book_slot: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False, server_default="false"
+    )
 
     books: Mapped[list["Book"]] = relationship(  # noqa: F821
         "Book",
